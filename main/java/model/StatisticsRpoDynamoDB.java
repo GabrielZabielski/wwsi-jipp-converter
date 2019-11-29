@@ -45,8 +45,8 @@ public class StatisticsRpoDynamoDB implements Statistics {
         while(iter.hasNext()){
             item = iter.next();
             StatisticsModel model = new StatisticsModel();
-            model.setConverter(item.getString("converter"));
             model.setDataId(item.getString("UID"));
+            model.setConverter(item.getString("converter"));
             model.setDate(item.getString("date"));
             model.setUnitFrom(item.getString("unitFrom"));
             model.setUnitTo(item.getString("unitTo"));

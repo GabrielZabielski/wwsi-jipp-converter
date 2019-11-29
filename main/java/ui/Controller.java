@@ -11,7 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 import model.StatisticsModel;
-import model.StatisticsRpoDynamoDB;
+import model.StatisticsRepoMariaDB;
 
 import java.text.SimpleDateFormat;
 
@@ -87,9 +87,10 @@ private Service converterService = new Service();
                     from.getValue(),
                     into.getValue(),
                     conversionResult);
-            StatisticsRpoDynamoDB stats = new StatisticsRpoDynamoDB();
+//            StatisticsRpoDynamoDB stats = new StatisticsRpoDynamoDB();
+            StatisticsRepoMariaDB mdb = new StatisticsRepoMariaDB();
             try {
-                stats.putItem(statsModel);
+                mdb.putItem(statsModel);
                 observableList.add(statsModel);
             } catch (AmazonDynamoDBException ex){
                 Alert a = new Alert(Alert.AlertType.ERROR);
@@ -107,8 +108,11 @@ private Service converterService = new Service();
     }
 
     private void initTableView(){
-        StatisticsRpoDynamoDB stats = new StatisticsRpoDynamoDB();
-        observableList.addAll(stats.getItems());
+//        StatisticsRpoDynamoDB stats = new StatisticsRpoDynamoDB();
+        StatisticsRepoMariaDB mdb = new StatisticsRepoMariaDB();
+        observableList.addAll(mdb.getItems());
+
+
         dataId.setText("Id");
         converterType.setText("converter");
         date.setText("Data Time");
