@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane minHeight="400.0" minWidth="780.0" prefHeight="400.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/13.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Controller">
+<AnchorPane minHeight="400.0" minWidth="780.0" prefHeight="400.0" prefWidth="878.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Controller">
    <children>
       <SplitPane dividerPositions="0.5" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
@@ -22,10 +22,11 @@
                   <TableView fx:id="table" maxHeight="1000.0" maxWidth="1000.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="398.0" prefWidth="359.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columns>
                         <TableColumn fx:id="dataId" editable="false" maxWidth="30.0" prefWidth="30.0" resizable="false" text="Column X" />
-                        <TableColumn fx:id="data" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" text="Column X" />
+                        <TableColumn fx:id="date" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" text="Column X" />
                         <TableColumn fx:id="unitFrom" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="75.0" text="Column X" />
                         <TableColumn fx:id="unitTo" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="75.0" text="Column X" />
                         <TableColumn fx:id="value" editable="false" maxWidth="100.0" prefWidth="100.0" resizable="false" text="Column X" />
+                        <TableColumn fx:id="converterType" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="75.0" text="Column X" />
                      </columns>
                      <opaqueInsets>
                         <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />

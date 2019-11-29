@@ -3,27 +3,45 @@ package convertersController;
 import converters.Converter;
 import org.reflections.Reflections;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class Service {
     private Reflections reflections;
-
+    private Set<Class<? extends Converter>> converters;
     public Service(){
         this.reflections = new Reflections("converters");
+        this.converters = reflections.getSubTypesOf(Converter.class);
     }
 
-    public List<String> listConverters() throws IllegalAccessException, InstantiationException {
-        List<String> c = new ArrayList<>();
-        Set<Class<? extends Converter>> converters =
-                reflections.getSubTypesOf(Converter.class);
-        for (Class<? extends Converter> xClass : converters){
-            xClass.newInstance();
-            System.out.println(xClass.getName());
-            c.add(xClass.getName());
-        }
-        return c;
+    public Map<String, Object> getMapConverters() {
+        Map<String, Object> hashMap = new HashMap<>();
+        converters.forEach(x -> {
+            try {
+                Object obj = x.newInstance();
+                hashMap.put(((Converter)obj).getConverterName(), obj);
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        });
+
+//        File dir = new File("plugins");
+//        try {
+//            System.out.println(dir.get);
+//            URL paths = dir.toURI().toURL();
+//            URL[] classURL = new URL[]{paths};
+//            ClassLoader classLoader = new URLClassLoader(classURL);
+//            System.out.println(classLoader.loadClass());
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        return hashMap;
     }
 
 }

@@ -3,7 +3,10 @@ package converters;
 import java.util.List;
 
 public interface Converter{
-    public String getName();
-    public List<String> getUnits();
-    public double Convert(String unitFrom, String unitTo, double input);
+    double[][] x = null;
+    String[] units = {};
+    String getConverterName();
+    List<String> getUnits();
+    double convert(String unitFrom, String unitTo, double input);
+//    static Map<String, Integer> map = Arrays.stream(units).collect(Collectors.toMap(x -> getName(), x -> x.indexOf(x)));
 }

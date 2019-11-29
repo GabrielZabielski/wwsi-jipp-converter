@@ -9,11 +9,11 @@ public class Weight implements Converter{
                             {2.2046,       0,         0.0001},
                             {0.0022046,    1000,      0}};
     private String[] units = {"lb", "kg", "g"};
-//    private Map<String, Integer> map = Arrays.stream(units).collect(Collectors.toMap(x -> getName(), x -> x.indexOf(x)));
+//    private Map<String, Integer> map = Arrays.stream(units).collect(Collectors.toMap(x, x -> x.indexOf(x)));
 
 
     @Override
-    public String getName() {
+    public String getConverterName() {
         return "Wight";
     }
 
@@ -23,7 +23,7 @@ public class Weight implements Converter{
     }
 
     @Override
-    public double Convert(String unitFrom, String unitTo, double input) {
+    public double convert(String unitFrom, String unitTo, double input) {
         return input* 100; //x[map.get(unitFrom)][map.get(unitTo)];
     }
 }
