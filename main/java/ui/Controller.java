@@ -10,8 +10,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
-import model.StatisticsModel;
-import model.StatisticsRepoMariaDB;
+import statistics.StatisticsModel;
+import statistics.StatisticsRepoMariaDB;
 
 import java.text.SimpleDateFormat;
 

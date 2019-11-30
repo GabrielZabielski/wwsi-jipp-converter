@@ -1,4 +1,4 @@
-package model;
+package statistics;
 
 import java.util.List;
 
