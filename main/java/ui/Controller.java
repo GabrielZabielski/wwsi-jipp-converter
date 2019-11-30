@@ -2,7 +2,7 @@ package ui;
 
 import com.amazonaws.services.dynamodbv2.model.AmazonDynamoDBException;
 import converters.Converter;
-import convertersController.Service;
+import convertersController.ConverterController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -54,7 +54,7 @@ private ObservableList<String> unitsList = FXCollections.observableArrayList();
 private ObservableList<StatisticsModel> observableList = FXCollections.observableArrayList();
 
 
-private Service converterService = new Service();
+private ConverterController converterService = new ConverterController();
 
     public void initialize() {
 

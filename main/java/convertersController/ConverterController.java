@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class Service {
+public class ConverterController {
     private Reflections reflections;
     private Set<Class<? extends Converter>> converters;
-    public Service(){
+    public ConverterController(){
         this.reflections = new Reflections("converters");
         this.converters = reflections.getSubTypesOf(Converter.class);
     }
