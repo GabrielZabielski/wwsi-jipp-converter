@@ -2,6 +2,7 @@ package statistics;
 
 import com.amazonaws.AmazonClientException;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -10,7 +11,7 @@ public class StatisticsController {
 
     public Statistics getRepo() throws IOException, SQLException, AmazonClientException {
         Properties properties = new Properties();
-        properties.load(getClass().getResourceAsStream("/config.properties"));
+        properties.load(new FileReader("src/main/resources/config.properties"));
 
         String dbType = properties.getProperty("dbType");
         Statistics resp = null;

@@ -11,18 +11,14 @@ public class Weight implements Converter{
     private String[] units = {"lb", "kg", "g"};
 //    private Map<String, Integer> map = Arrays.stream(units).collect(Collectors.toMap(x, x -> x.indexOf(x)));
 
-
-    @Override
     public String getConverterName() {
         return "Wight";
     }
 
-    @Override
     public List<String> getUnits() {
         return new ArrayList<String>(Arrays.asList(units));
     }
 
-    @Override
     public double convert(String unitFrom, String unitTo, double input) {
         return input* 100; //x[map.get(unitFrom)][map.get(unitTo)];
     }

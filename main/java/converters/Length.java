@@ -9,18 +9,14 @@ public class Length implements Converter{
     private String[] units = {"m", "km", "mile"};
 //    private Map<String, Integer> map = Arrays.stream(units).collect(Collectors.toMap(x -> getName(), x -> x.indexOf(x)));
 
-
-    @Override
     public String getConverterName() {
         return "Currency";
     }
 
-    @Override
     public List<String> getUnits() {
         return new ArrayList<String>(Arrays.asList(units));
     }
 
-    @Override
     public double convert(String unitFrom, String unitTo, double input) {
         return input* 10000; //x[map.get(unitFrom)][map.get(unitTo)];
     }
