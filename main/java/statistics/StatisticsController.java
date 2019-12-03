@@ -1,16 +1,20 @@
 package statistics;
 
-import propertiesInjector.Property;
-
-import javax.inject.Inject;
+import java.io.IOException;
+import java.util.Properties;
 
 public class StatisticsController {
-    @Inject
-    @Property("dbType")
-    private String dbType;
     private Statistics repo;
 
     public Statistics getRepo(){
+        Properties properties = new Properties();
+        try {
+            properties.load(getClass().getResourceAsStream("/config.properties"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        String dbType = properties.getProperty("dbType");
         if (dbType.equals("DynamoDB")){
             repo = new StatisticsRpoDynamoDB();
         }
