@@ -12,15 +12,11 @@ public class StatisticsRepoMariaDB implements Statistics {
 
     private static final String QUERY = "Select * from Converter";
 
-    StatisticsRepoMariaDB(){
-        try {
-            this.connection = DriverManager.getConnection(
-                    "jdbc:mariadb://converter-database.csjh09bxtvwl.eu-central-1.rds.amazonaws.com:3306/converter",
-                    "admin",
-                    "ZAQ!SeR2wsx");
-        }catch (SQLException ex){
-            System.out.println(ex);
-        }
+    StatisticsRepoMariaDB() throws SQLException {
+        this.connection = DriverManager.getConnection(
+                "jdbc:mariadb://converter-database.csjh09bxtvwl.eu-central-1.rds.amazonaws.com:3306/converter",
+                "admin",
+                "ZAQ!SeR2wsx");
     }
 
     public void putItem(StatisticsModel stats) {
@@ -33,8 +29,8 @@ public class StatisticsRepoMariaDB implements Statistics {
             statement.setString(5, stats.getUnitFrom());
             statement.setString(6, stats.getUnitTo());
             statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
     }
 

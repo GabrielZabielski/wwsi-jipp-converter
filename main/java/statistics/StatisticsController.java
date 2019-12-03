@@ -1,29 +1,32 @@
 package statistics;
 
+import com.amazonaws.AmazonClientException;
+
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class StatisticsController {
-    private Statistics repo;
 
-    public Statistics getRepo(){
+    public Statistics getRepo() throws IOException, SQLException, AmazonClientException {
         Properties properties = new Properties();
-        try {
-            properties.load(getClass().getResourceAsStream("/config.properties"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        properties.load(getClass().getResourceAsStream("/config.properties"));
 
         String dbType = properties.getProperty("dbType");
-        if (dbType.equals("DynamoDB")){
-            repo = new StatisticsRpoDynamoDB();
+        Statistics resp = null;
+        if (dbType == null || dbType.isEmpty()){
+            throw new IOException("Properties file is empty or doesn't exist.");
+        }
+        else if (dbType.equals("DynamoDB")){
+            resp = new StatisticsRpoDynamoDB();
         }
         else if (dbType.equals("MariaDB")){
-            repo = new StatisticsRepoMariaDB();
+            resp = new StatisticsRepoMariaDB();
         }
-        else {
-            System.out.print("dupa");
-        }
-        return repo;
+        return resp;
+    }
+
+    public Statistics getMock(){
+        return new StatisticsRepoMock();
     }
 }

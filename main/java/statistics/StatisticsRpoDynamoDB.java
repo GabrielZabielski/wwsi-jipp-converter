@@ -1,5 +1,6 @@
 package statistics;
 
+import com.amazonaws.AmazonClientException;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
@@ -11,21 +12,26 @@ import java.util.Iterator;
 import java.util.List;
 
 public class StatisticsRpoDynamoDB implements Statistics {
-//    converter-statistics
-    AmazonDynamoDB client;
-    DynamoDB service;
-    Table table;
+    private Table table;
 
-    StatisticsRpoDynamoDB() {
-        this.client = AmazonDynamoDBClientBuilder.standard()
+    StatisticsRpoDynamoDB() throws AmazonClientException {
+        String tableName = "converter-statistics";
+
+        AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
                 .withCredentials(new ProfileCredentialsProvider("main"))
                 .withRegion("eu-central-1")
                 .build();
-        this.service = new DynamoDB(client);
-        this.table = service.getTable("converter-statistics");
+        DynamoDB service = new DynamoDB(client);
+        try {
+            client.describeTable(tableName);
+        } catch (AmazonClientException ex) {
+            String mess = ex.getMessage() + ";DynamoDB table name: " + tableName;
+            throw new AmazonClientException(mess.replace(";", "\n"));
+        }
+        this.table = service.getTable(tableName);
     }
 
-    public void putItem(StatisticsModel stats){
+    public void putItem(StatisticsModel stats) {
         PutItemOutcome outcome = table.putItem(new Item()
                 .withPrimaryKey("UID", stats.getDataId())
                 .withString("converter", stats.getConverter())
@@ -35,7 +41,7 @@ public class StatisticsRpoDynamoDB implements Statistics {
                 .withDouble("input", stats.getInput()));
     }
 
-    public List<StatisticsModel> getItems(){
+    public List<StatisticsModel> getItems() {
         ScanSpec scan = new ScanSpec();
 
         ItemCollection<ScanOutcome> items = table.scan(scan);

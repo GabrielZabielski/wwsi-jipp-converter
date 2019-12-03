@@ -1,5 +1,6 @@
 package ui;
 
+import com.amazonaws.AmazonClientException;
 import converters.Converter;
 import convertersController.ConverterController;
 import javafx.collections.FXCollections;
@@ -14,6 +15,8 @@ import statistics.StatisticsController;
 import statistics.StatisticsModel;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
 public class Controller {
@@ -60,11 +63,26 @@ public class Controller {
     protected StatisticsController statsController;
     private Statistics statisticsRepo;
 
+    private void throwExceptionMessageBox(Object ex){
+        Alert a = new Alert(Alert.AlertType.ERROR);
+        a.setHeaderText("Unable to connect with statistics database");
+        a.setContentText(ex.toString());
+        a.setTitle("Database exception");
+        a.show();
+    }
+
     public void initialize() {
         statsController = new StatisticsController();
-        this.statisticsRepo = statsController.getRepo();
-        System.out.println(statisticsRepo.getClass());
-        observableList.addAll(statisticsRepo.getItems());
+        try {
+            this.statisticsRepo = statsController.getRepo();
+        }
+        catch (IOException | AmazonClientException | SQLException ex){
+            this.statisticsRepo = statsController.getMock();
+            throwExceptionMessageBox(ex);
+        }
+        if (!statisticsRepo.getClass().getName().endsWith("Mock")){
+            observableList.addAll(statisticsRepo.getItems());
+        }
 
         converterService.getMapConverters().forEach((k, v) -> convertersList.add(k));
         converter.setItems(convertersList);
