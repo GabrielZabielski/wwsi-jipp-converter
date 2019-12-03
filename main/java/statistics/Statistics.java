@@ -2,7 +2,7 @@ package statistics;
 
 import java.util.List;
 
-interface Statistics {
+public interface Statistics {
     void putItem(StatisticsModel stats);
     List<StatisticsModel> getItems();
 }

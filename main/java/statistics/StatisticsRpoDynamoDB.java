@@ -16,7 +16,7 @@ public class StatisticsRpoDynamoDB implements Statistics {
     DynamoDB service;
     Table table;
 
-    public StatisticsRpoDynamoDB() {
+    StatisticsRpoDynamoDB() {
         this.client = AmazonDynamoDBClientBuilder.standard()
                 .withCredentials(new ProfileCredentialsProvider("main"))
                 .withRegion("eu-central-1")

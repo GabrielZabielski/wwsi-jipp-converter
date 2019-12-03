@@ -1,6 +1,5 @@
 package ui;
 
-import com.amazonaws.services.dynamodbv2.model.AmazonDynamoDBException;
 import converters.Converter;
 import convertersController.ConverterController;
 import javafx.collections.FXCollections;
@@ -10,55 +9,62 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
+import statistics.Statistics;
+import statistics.StatisticsController;
 import statistics.StatisticsModel;
-import statistics.StatisticsRepoMariaDB;
 
+import javax.inject.Inject;
 import java.text.SimpleDateFormat;
 
 public class Controller {
-@FXML
-    TableView<StatisticsModel> table;
-@FXML
-    Pane pane;
+    @FXML
+        TableView<StatisticsModel> table;
+    @FXML
+        Pane pane;
 
 
-@FXML
-    TableColumn dataId;
-@FXML
-    TableColumn date;
-@FXML
-    TableColumn converterType;
-@FXML
-    TableColumn unitFrom;
-@FXML
-    TableColumn unitTo;
-@FXML
-    TableColumn value;
+    @FXML
+        TableColumn dataId;
+    @FXML
+        TableColumn date;
+    @FXML
+        TableColumn converterType;
+    @FXML
+        TableColumn unitFrom;
+    @FXML
+        TableColumn unitTo;
+    @FXML
+        TableColumn value;
 
 
-@FXML
-    ChoiceBox<String> converter;
-@FXML
-    ChoiceBox<String> from;
-@FXML
-    ChoiceBox<String> into;
-@FXML
-    TextField input;
-@FXML
-    Button converterButton;
-@FXML
-    Label result;
+    @FXML
+        ChoiceBox<String> converter;
+    @FXML
+        ChoiceBox<String> from;
+    @FXML
+        ChoiceBox<String> into;
+    @FXML
+        TextField input;
+    @FXML
+        Button converterButton;
+    @FXML
+        Label result;
 
-private ObservableList<String> convertersList = FXCollections.observableArrayList();
-private ObservableList<String> unitsList = FXCollections.observableArrayList();
-private ObservableList<StatisticsModel> observableList = FXCollections.observableArrayList();
+    private ObservableList<String> convertersList = FXCollections.observableArrayList();
+    private ObservableList<String> unitsList = FXCollections.observableArrayList();
+    private ObservableList<StatisticsModel> observableList = FXCollections.observableArrayList();
 
+    private ConverterController converterService = new ConverterController();
 
-private ConverterController converterService = new ConverterController();
+    @Inject
+    protected StatisticsController statsController;
+    private Statistics statisticsRepo;
 
     public void initialize() {
-
-        initTableView();
+        statsController = new StatisticsController();
+        this.statisticsRepo = statsController.getRepo();
+        System.out.println(statisticsRepo.getClass());
+        observableList.addAll(statisticsRepo.getItems());
 
         converterService.getMapConverters().forEach((k, v) -> convertersList.add(k));
         converter.setItems(convertersList);
@@ -67,6 +73,8 @@ private ConverterController converterService = new ConverterController();
 
         converter.getSelectionModel().selectedItemProperty().addListener( (v, oldValue, newValue) -> updateUnits(newValue) );
         converterButton.setOnAction(e -> convertHandler());
+
+        initTableView();
     }
 
     private void convertHandler() {
@@ -82,22 +90,14 @@ private ConverterController converterService = new ConverterController();
                              into.getValue(),
                              Double.valueOf(input.getText()));
             result.setText(Double.toString(conversionResult));
+
             StatisticsModel statsModel = new StatisticsModel(
                     converter.getValue(),
                     from.getValue(),
                     into.getValue(),
                     conversionResult);
-//            StatisticsRpoDynamoDB stats = new StatisticsRpoDynamoDB();
-            StatisticsRepoMariaDB mdb = new StatisticsRepoMariaDB();
-            try {
-                mdb.putItem(statsModel);
-                observableList.add(statsModel);
-            } catch (AmazonDynamoDBException ex){
-                Alert a = new Alert(Alert.AlertType.ERROR);
-                a.setHeaderText(ex.toString());
-                a.setTitle("AmazonDynamoDBException");
-                a.show();
-            }
+            statisticsRepo.putItem(statsModel);
+            observableList.add(statsModel);
         }
     }
 
@@ -108,9 +108,6 @@ private ConverterController converterService = new ConverterController();
     }
 
     private void initTableView(){
-//        StatisticsRpoDynamoDB stats = new StatisticsRpoDynamoDB();
-        StatisticsRepoMariaDB mdb = new StatisticsRepoMariaDB();
-        observableList.addAll(mdb.getItems());
 
 
         dataId.setText("Id");

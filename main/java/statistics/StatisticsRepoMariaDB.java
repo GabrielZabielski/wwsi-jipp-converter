@@ -12,7 +12,7 @@ public class StatisticsRepoMariaDB implements Statistics {
 
     private static final String QUERY = "Select * from Converter";
 
-    public StatisticsRepoMariaDB(){
+    StatisticsRepoMariaDB(){
         try {
             this.connection = DriverManager.getConnection(
                     "jdbc:mariadb://converter-database.csjh09bxtvwl.eu-central-1.rds.amazonaws.com:3306/converter",
