@@ -3,9 +3,13 @@ package convertersController;
 import converters.Converter;
 import org.reflections.Reflections;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class ConverterController {
     private Reflections reflections;
@@ -15,32 +19,49 @@ public class ConverterController {
         this.converters = reflections.getSubTypesOf(Converter.class);
     }
 
-    public Map<String, Object> getMapConverters() {
+    public Map<String, Object> getMapConverters(){
         Map<String, Object> hashMap = new HashMap<>();
         converters.forEach(x -> {
             try {
-                Object obj = x.newInstance();
-                hashMap.put(((Converter)obj).getConverterName(), obj);
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
+                Converter obj = x.newInstance();
+                hashMap.put(obj.getConverterName(), obj);
+            } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         });
 
-//        File dir = new File("plugins");
-//        try {
-//            System.out.println(dir.get);
-//            URL paths = dir.toURI().toURL();
-//            URL[] classURL = new URL[]{paths};
-//            ClassLoader classLoader = new URLClassLoader(classURL);
-//            System.out.println(classLoader.loadClass());
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        List<URL> uriList = new ArrayList<>();
+        try {
+            Files.walk(Paths.get("Plugins"))
+                    .filter(Files::isRegularFile)
+                    .filter(file -> file.getFileName().toString().toLowerCase().endsWith(".jar"))
+                    .forEach(path -> {
+                        try {
+                            uriList.add(path.toUri().toURL());
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                    });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        URL[] urls = new URL[uriList.size()];
+        for (int i = 0; i < uriList.size(); i++){
+            urls[i] = uriList.get(i);
+            System.out.println("1. " + uriList.get(i).toString());
+        }
 
+        // TODO OSGI
+
+        URLClassLoader classLoader = new URLClassLoader(urls);
+        System.out.println("2. " + Arrays.toString(classLoader.getURLs()));
+        ServiceLoader<Converter> serviceLoader = ServiceLoader.load(Converter.class, classLoader);
+
+        serviceLoader.forEach(x -> {
+            System.out.println("3. " + x.getConverterName());
+            hashMap.put(x.getConverterName(), x);
+        });
+        System.out.println("4. " + hashMap.toString());
         return hashMap;
     }
 
