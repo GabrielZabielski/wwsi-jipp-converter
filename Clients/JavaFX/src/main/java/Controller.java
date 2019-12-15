@@ -1,5 +1,3 @@
-package ui;
-
 import com.amazonaws.AmazonClientException;
 import converters.Converter;
 import convertersController.ConverterController;
@@ -63,25 +61,22 @@ public class Controller {
     protected StatisticsController statsController;
     private Statistics statisticsRepo;
 
-    private void throwExceptionMessageBox(Object ex){
+    private void throwExceptionMessageBox(){
         Alert a = new Alert(Alert.AlertType.ERROR);
         a.setHeaderText("Unable to connect with statistics database");
-        a.setContentText(ex.toString());
+        a.setContentText(statsController.throwExceptionFromController());
         a.setTitle("Database exception");
         a.show();
     }
 
     public void initialize() {
         statsController = new StatisticsController();
-        try {
-            this.statisticsRepo = statsController.getRepo();
-        }
-        catch (IOException | AmazonClientException | SQLException ex){
-            this.statisticsRepo = statsController.getMock();
-            throwExceptionMessageBox(ex);
-        }
+        statisticsRepo = statsController.getRepo();
         if (!statisticsRepo.getClass().getName().endsWith("Mock")){
             observableList.addAll(statisticsRepo.getItems());
+        }
+        else{
+            throwExceptionMessageBox();
         }
 
         converterService.getMapConverters().forEach((k, v) -> convertersList.add(k));

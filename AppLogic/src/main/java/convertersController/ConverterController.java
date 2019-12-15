@@ -20,6 +20,7 @@ public class ConverterController {
     }
 
     public Map<String, Object> getMapConverters(){
+        System.out.println("tu jestem");
         Map<String, Object> hashMap = new HashMap<>();
         converters.forEach(x -> {
             try {
