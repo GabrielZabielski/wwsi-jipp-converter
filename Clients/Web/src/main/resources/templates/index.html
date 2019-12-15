@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Unused</title>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
+    <script src="dataquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+
+</head>
+
+<body>
+
+<h1 class="hx">Converter Web Client</h1>
+
+<h3 class = "hx">'Description'</h3>
+
+
+<form action="/statistic" method="get">
+
+<button type="submit" formaction="/statistic"> endpoint </button> <!--  this -->
+</form>
+
+<div class="historyTable">
+<table id="history" class="display">
+
+    <!-- Header Table -->
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Converter</th>
+        <th>Data Time</th>
+        <th>Unit From</th>
+        <th>Unit To</th>
+        <th>Value</th>
+    </tr>
+    </thead>
+    <!-- Footer Table -->
+    <tfoot>
+    <tr >
+        <th>dataId</th>
+        <th>Converter</th>
+        <th>date</th>
+        <th>unitFrom</th>
+        <th>unitTo</th>
+        <th>input</th>
+    </tr>
+    </tfoot>
+</table>
+</div>
+
+</body>
+</html>

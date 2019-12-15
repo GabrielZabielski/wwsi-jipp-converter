@@ -10,8 +10,10 @@ public class Main {
 
         RatpackServer.start(server -> server
                 .serverConfig(config -> config.baseDir(BaseDir.find()))
-                .handlers(chain -> chain
-                .get("name", ctx -> ctx.render(Jackson.json(statisticsRepo.getItems())))));
+                .handlers(chain -> chain.files(f -> f
+                        .dir("templates")
+                        .indexFiles("index.html"))
+                .get("statistic", ctx -> ctx.render(Jackson.json(statisticsRepo.getItems())))));
     }
 
     private static Statistics statisticsRepo;
