@@ -1,25 +1,28 @@
 package converters;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Weight implements Converter{
-    private double[][] x = {{0,            0.4535923, 0.0004535923},
-                            {2.2046,       0,         0.0001},
-                            {0.0022046,    1000,      0}};
-    private String[] units = {"lb", "kg", "g"};
-//    private Map<String, Integer> map = Arrays.stream(units).collect(Collectors.toMap(x, x -> x.indexOf(x)));
+    private final double[][] x = {{0,            0.4535923, 0.004535923},
+                                  {2.2046,       0,         0.001},
+                                  {0.0022046,    1000,      0}};
+    private final Map<String, Integer> units = new HashMap<String, Integer>() {{
+        put("lb", 0);
+        put("kg", 1);
+        put("g", 2);
+    }};
 
     public String getConverterName() {
         return "Wight";
     }
 
     public List<String> getUnits() {
-        return new ArrayList<String>(Arrays.asList(units));
+        List<String> list = new ArrayList<>();
+        units.forEach((x, y) -> list.add(x));
+        return list;
     }
 
     public double convert(String unitFrom, String unitTo, double input) {
-        return input* 100; //x[map.get(unitFrom)][map.get(unitTo)];
+        return input* x[units.get(unitFrom)][units.get(unitTo)];
     }
 }

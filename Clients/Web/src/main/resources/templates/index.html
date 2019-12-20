@@ -11,7 +11,7 @@
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 
     <script src="dataquery.js"></script>
-    <script src="getConverterNames.js"></script>
+
     <link rel="stylesheet" type="text/css" href="styles.css">
 
 
@@ -30,35 +30,25 @@
 
     <div class="converter">
         <p>
-            <select id="converters" name="Converters" onclick="dropdown">
+            <select id="converters" name="Converters" onchange="selectedOption()">
             </select>
+            <script src="getConverterNames.js"></script>
         </p>
         <span>
-            <select>
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="opel">Opel</option>
-                <option value="audi">Audi</option>
+            <select id="from">
             </select>
-            <select>
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="opel">Opel</option>
-                <option value="audi">Audi</option>
+            <select id="in-to">
             </select>
         </span>
+        <label id="info"></label>
+        <p>
+            <input id="input" type="text">
+        </p>
+        <p>
+            <label id="output"></label>
+        </p>
 
-        <form>
-            First name:<br>
-            <input type="text" name="firstname"><br>
-        </form>
-
-        <label>Input</label>
-        <form action="/statistic" method="get">
-            <input name="firstname" type="text">
-        </form>
-
-    <button type="submit" formaction="/statistic"> convert </button>
+    <button type="submit" onclick="convert()"> convert </button>
 </div>
 <div class="historyTable">
 <table id="history" class="display">
