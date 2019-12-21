@@ -1,7 +1,5 @@
-import com.fasterxml.jackson.databind.ObjectMapper;
 import converters.Converter;
 import convertersController.ConverterController;
-import jdk.nashorn.internal.runtime.regexp.joni.WarnCallback;
 import ratpack.jackson.Jackson;
 import ratpack.server.BaseDir;
 import ratpack.server.RatpackServer;
@@ -9,12 +7,8 @@ import statistics.Statistics;
 import statistics.StatisticsController;
 import statistics.StatisticsModel;
 
-import java.security.CodeSource;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
-
-import static ratpack.jackson.Jackson.jsonNode;
 
 public class Main {
     public static void main(String... args) throws Exception {
