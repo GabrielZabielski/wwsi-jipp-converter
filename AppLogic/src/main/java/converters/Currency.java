@@ -6,8 +6,6 @@ import org.json.JSONObject;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,9 +13,7 @@ public class Currency implements Converter {
     private Double dollar;
 
     public Currency(){
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDateTime now = LocalDateTime.now();
-        String url = "http://api.nbp.pl/api/exchangerates/rates/c/usd/"+dtf.format(now.minusHours(12))+"/?format=json";
+        String url = "http://api.nbp.pl/api/exchangerates/rates/c/usd/last/?format=json";
 
         try {
             JSONObject json = readJsonFromUrl(url);
